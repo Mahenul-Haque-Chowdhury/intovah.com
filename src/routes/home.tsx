@@ -5,8 +5,9 @@ export default function HomePage() {
   return (
     <Layout>
       <Hero
-        title="Landing template for startups"
-        content="Our landing page template works for all the devices, so you only have to setup it once, and get beautiful results forever."
+        title="intovah: On the Verge of Innovation"
+        content="At Intovah, we don’t just follow trends; we create them.
+        Let’s redefine what your business can achieve together."
         illustration={<HeroIllustration />}
       />
     </Layout>
