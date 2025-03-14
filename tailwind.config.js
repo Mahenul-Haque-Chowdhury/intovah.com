@@ -1,7 +1,8 @@
+const { fontFamily } = require(`tailwindcss/defaultTheme`)
+const colors = require('tailwindcss/colors')
+
 module.exports = {
-  content: [
-    './src/**/*.{html,js,ts,jsx,tsx}', // Add all file types
-  ],
+  content: ['./src/**/*.{html,ts,tsx}'],
   theme: {
     extend: {
       fontFamily: {
@@ -30,4 +31,4 @@ module.exports = {
     },
   },
   plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
-};
+}
