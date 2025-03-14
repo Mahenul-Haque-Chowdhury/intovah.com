@@ -1,18 +1,18 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
-import path from 'path'
+import path from 'path';
 
 export default defineConfig({
-  root: 'src', // Set the root to the 'src' folder
-  base: '/', // Base URL for the project
+  root: 'src',
+  base: '/',
   build: {
-    outDir: '../dist', // Output directory for the build
-    assetsDir: 'assets', // Directory for static assets
+    outDir: '../dist',
+    emptyOutDir: true,
   },
-  plugins: [react()], // Enable React support
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // Add alias for src folder
+      '@': path.resolve(__dirname, './src'),
     },
   },
+  plugins: [react()],
 });
