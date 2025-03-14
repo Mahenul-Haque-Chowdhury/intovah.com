@@ -1,8 +1,9 @@
-# Holly
+# Intovah
+A React implementation of Davide Pacilio's free landing page template, Holly, customized for Intovah.
 
-A React implementation of [Davide Pacilio's](https://cruip.com/) free landing page template, [Holly](https://lukemcdonald.github.io/holly-react/).
+## Getting Started
+1. Run `npm install` to install dependencies.
+2. Run `npm run dev` to start the development server.
 
-# Getting Started
-
-- Run `npm install`
-- Run `npm run dev`
+## About Intovah
+Intovah delivers cutting-edge solutions to revolutionize your business. Explore more at [Intovah](https://intovah.com).
