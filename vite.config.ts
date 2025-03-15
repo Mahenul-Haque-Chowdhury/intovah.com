@@ -1,23 +1,18 @@
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import path from 'path';
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import { defineConfig } from 'vite'
 
+// https://vitejs.dev/config/
 export default defineConfig({
-  // root: 'src', // Set the root to the 'src' folder
-  base: '/', // Base URL for the project
+  // root: 'src',
+  base: '/',
   build: {
     outDir: 'dist',
-    emptyOutDir: true,
-    manifest: true, // Generates a JSON file with correct asset paths
-    rollupOptions: {
-      input: './src/index.tsx', // Ensure correct entry file
-    }
-
   },
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'), // Add alias for src folder
+      '@': path.resolve(__dirname, './src'),
     },
   },
   plugins: [react()],
-});
+})
