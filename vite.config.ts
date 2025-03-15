@@ -10,8 +10,9 @@ export default defineConfig({
     emptyOutDir: true,
     manifest: true, // Generates a JSON file with correct asset paths
     rollupOptions: {
-      input: 'index.html', // Ensures correct entry point
-    },
+      input: './src/index.tsx', // Ensure correct entry file
+    }
+
   },
   resolve: {
     alias: {
