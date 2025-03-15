@@ -18,12 +18,6 @@
     {
       "src": "/assets/(.*)",
       "dest": "/src/assets/$1"
-    },
-    {
-      "src": "/(.*)",
-      "headers": {
-        "Content-Type": "text/html"
-      }
     }
   ]
 }
