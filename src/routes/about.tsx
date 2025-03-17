@@ -1,5 +1,6 @@
 import { Article } from '@/components/article'
 import { Layout } from '@/components/layout'
+import { Hero, HeroIllustration } from '@/components/hero'
 
 function AboutPage() {
   return (
@@ -9,15 +10,11 @@ function AboutPage() {
         imageAlt="Lorem Picsum"
         imageSrc="https://picsum.photos/420/640?grayscale"
       >
-        {/* prettier-ignore */}
-        <p>
-            Holly is a free HTML/CSS landing page designed and developed by <a href="https://twitter.com/pacovitiello">@pacovitiello</a> and <a href="https://twitter.com/DavidePacilio">@DavidePacilio</a>!
-          </p>
-        <p>
-          Holly is suitable for all kind of startups, it's easily customizable, and it's
-          downloadable for personal and commercial use.
-        </p>
-        <p>This template is distributed under the MIT License.</p>
+
+         "intovah: On the Verge of Innovation" <br></br>
+          At Intovah, we don’t just follow trends; we create them.
+        Let’s redefine what your business can achieve together.
+
       </Article>
     </Layout>
   )

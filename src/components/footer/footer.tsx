@@ -10,7 +10,7 @@ function Footer() {
             <SocialLinks className="flex gap-4" />
             <Menu className="flex gap-4" />
           </nav>
-          <div className="">&copy; intovah</div>
+          <div className="">&copy; intovah 2025</div>
         </div>
       </div>
     </footer>
