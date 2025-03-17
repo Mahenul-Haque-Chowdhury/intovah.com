@@ -1,23 +1,28 @@
+import { useState } from 'react'
 import { NewsletterForm } from '@/components/newsletter-form'
 import { cn } from '@/utils/cn'
 import type { ReactNode } from 'react'
 import { useEffect, useRef } from 'react'
 import ScrollReveal from 'scrollreveal'
+import { config } from '@/config/config'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 type ScrollRevealRefElement = HTMLDivElement | HTMLHeadingElement | HTMLParagraphElement
 
 function Hero({
-  className,
-  content,
-  illustration,
-  title,
-}: {
+                className,
+                content,
+                illustration,
+                title,
+              }: {
   className?: string
   content: string
   illustration?: ReactNode
   title: string
 }) {
   const scrollRevealRef = useRef<ScrollRevealRefElement[]>([])
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     if (scrollRevealRef.current.length > 0) {
@@ -35,12 +40,51 @@ function Hero({
     return () => ScrollReveal().destroy()
   }, [])
 
-  function onNewsletterSubmit(values: any) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({ values })
-      }, 1000)
-    })
+  async function onNewsletterSubmit(email: string) {
+    // Show the overlay and set loading state
+    setIsLoading(true)
+
+    // Show a loading toast
+    const toastId = toast.loading('Sending email...')
+
+    try {
+      // Make the POST request
+      const response = await fetch(`${config.apiBaseUrl}/api/send-email`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }), // Send email as an object
+      })
+
+      // If response is not OK, throw an error
+      if (!response.ok) {
+        throw new Error('Failed to send email')
+      }
+
+      // Update toast to success with a success message and remove the loading toast
+      toast.update(toastId, {
+        render: 'Email sent successfully!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 5000,
+      })
+
+      // Optionally, you can return the response if needed
+      return await response.json()
+    } catch (error) {
+      // Update toast to error with an error message and remove the loading toast
+      toast.update(toastId, {
+        render: 'Failed to send email. Please try again.',
+        type: 'error',
+        isLoading: false,
+        autoClose: 5000,
+      })
+      console.error(error)
+    } finally {
+      // Hide the overlay once the email sending is complete
+      setIsLoading(false)
+    }
   }
 
   const addToScrollRevealRef = (el: ScrollRevealRefElement) => {
@@ -75,6 +119,15 @@ function Hero({
           )}
         </div>
       </div>
+
+      {/* Full-page overlay with loading spinner */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="flex items-center justify-center">
+            <div className="w-16 h-16 border-t-4 border-white border-solid rounded-full animate-spin"></div>
+          </div>
+        </div>
+      )}
     </section>
   )
 }

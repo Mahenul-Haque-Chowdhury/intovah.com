@@ -5,6 +5,8 @@ import FaqsPage from '@/routes/faqs'
 import HomePage from '@/routes/home'
 import SupportPage from '@/routes/support'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'  // Import CSS for styling the toasts
 
 export default function App() {
   /**
@@ -26,6 +28,9 @@ export default function App() {
           <Route path="support" element={<SupportPage />} />
         </Routes>
       </ScrollToTop>
+
+      {/* ToastContainer should be included here to display toasts */}
+      <ToastContainer />
     </BrowserRouter>
   )
 }
