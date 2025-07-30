@@ -18,10 +18,6 @@ function Layout({
         className,
       )}
     >
-      <Helmet>
-        <meta name="google-adsense-account" content="ca-pub-8285428347390731" />
-      </Helmet>
-
 
       <Gradient className="absolute bottom-0 left-1/2 top-0 ml-28 hidden w-1/2 lg:block" />
       <Header />
