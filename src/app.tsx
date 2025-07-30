@@ -6,7 +6,8 @@ import HomePage from '@/routes/home'
 import SupportPage from '@/routes/support'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'  // Import CSS for styling the toasts
+import 'react-toastify/dist/ReactToastify.css'
+import { HelmetProvider } from 'react-helmet-async'  // Import CSS for styling the toasts
 
 export default function App() {
   /**
@@ -18,6 +19,7 @@ export default function App() {
   const basename = import.meta.env.BASE_URL
 
   return (
+    <HelmetProvider>
     <BrowserRouter basename={basename}>
       <ScrollToTop>
         <Routes>
@@ -32,5 +34,6 @@ export default function App() {
       {/* ToastContainer should be included here to display toasts */}
       <ToastContainer />
     </BrowserRouter>
+    </HelmetProvider>
   )
 }
