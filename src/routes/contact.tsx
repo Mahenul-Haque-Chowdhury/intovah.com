@@ -1,6 +1,6 @@
 import emailjs from '@emailjs/browser'
-import { useState, type ChangeEvent, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { toast } from 'react-toastify'
 
@@ -34,7 +34,7 @@ const INITIAL_STATE: ContactFormState = {
   interest: '',
 }
 
-const PROJECT_OPTIONS = [
+const BASE_PROJECT_OPTIONS = [
   'IntoStock',
   'IntoShop',
   'IntoPing',
@@ -43,7 +43,24 @@ const PROJECT_OPTIONS = [
   'Consult on something else',
 ]
 
+type ContactLocationState = {
+  project?: string
+}
+
 export default function ContactPage() {
+  const location = useLocation()
+  const projectFromState =
+    typeof location.state === 'object' && location.state !== null && 'project' in location.state
+      ? (location.state as ContactLocationState).project
+      : undefined
+
+  const projectOptions = useMemo(() => {
+    if (projectFromState && !BASE_PROJECT_OPTIONS.includes(projectFromState)) {
+      return [...BASE_PROJECT_OPTIONS, projectFromState]
+    }
+    return BASE_PROJECT_OPTIONS
+  }, [projectFromState])
+
   return (
     <Layout>
       <Helmet>
@@ -56,7 +73,7 @@ export default function ContactPage() {
 
       <div className="flex flex-col gap-24 pb-24 pt-16 md:gap-28 md:pt-24">
         <IntroSection />
-        <ContactContent />
+        <ContactContent defaultProject={projectFromState} projectOptions={projectOptions} />
       </div>
     </Layout>
   )
@@ -80,7 +97,13 @@ function IntroSection() {
   )
 }
 
-function ContactContent() {
+function ContactContent({
+  defaultProject,
+  projectOptions,
+}: {
+  defaultProject?: string
+  projectOptions: string[]
+}) {
   return (
     <section>
       <Container className="grid gap-12 lg:grid-cols-[1.2fr_1fr]">
@@ -93,7 +116,7 @@ function ContactContent() {
             alignment="left"
             className="mb-6"
           />
-          <ContactForm />
+          <ContactForm defaultProject={defaultProject} projectOptions={projectOptions} />
         </Card>
 
         <aside className="space-y-6">
@@ -145,13 +168,37 @@ function ContactContent() {
   )
 }
 
-function ContactForm() {
-  const [form, setForm] = useState<ContactFormState>(INITIAL_STATE)
+function ContactForm({
+  defaultProject,
+  projectOptions,
+}: {
+  defaultProject?: string
+  projectOptions: string[]
+}) {
+  const [form, setForm] = useState<ContactFormState>(() => ({
+    ...INITIAL_STATE,
+    project:
+      defaultProject && projectOptions.includes(defaultProject)
+        ? defaultProject
+        : INITIAL_STATE.project,
+  }))
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const updateField = (key: keyof ContactFormState, value: string) => {
     setForm((prev) => ({ ...prev, [key]: value }))
   }
+
+  useEffect(() => {
+    if (!defaultProject) return
+
+    setForm((prev) => {
+      if (prev.project && prev.project !== defaultProject) {
+        return prev
+      }
+
+      return { ...prev, project: defaultProject }
+    })
+  }, [defaultProject])
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -270,7 +317,7 @@ function ContactForm() {
         id="contact-project"
         value={form.project}
         onChange={(event) => updateField('project', event.target.value)}
-        options={PROJECT_OPTIONS}
+        options={projectOptions}
         placeholder="Select a project"
         required
       />

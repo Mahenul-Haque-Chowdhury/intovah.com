@@ -1,5 +1,5 @@
 import { useCallback, useEffect, type MouseEvent } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import {
@@ -57,7 +57,6 @@ type ProductShowcase = {
   description: string;
   icon: LucideIcon;
   status: string;
-  demoHref: string;
   details?: string;
 };
 
@@ -74,7 +73,6 @@ const productShowcase: ProductShowcase[] = [
       "Unify warehouses, storefronts, and marketplaces with real-time stock visibility and predictive replenishment.",
     icon: Boxes,
     status: "AVAILABLE NOW",
-    demoHref: "/contact?product=IntoStock",
     details:
       "Bring SKU accuracy, demand planning, and automated replenishment into a single platform. IntoStock connects your marketplaces and warehouses with predictive insights so your teams stay ahead of every purchase order.",
   },
@@ -85,7 +83,6 @@ const productShowcase: ProductShowcase[] = [
       "Launch compliant storefronts, checkouts, and fulfillment flows faster with modular commerce tooling.",
     icon: ShoppingBag,
     status: "AVAILABLE NOW",
-    demoHref: "/contact?product=IntoShop",
     details:
       "Spin up conversion-optimized storefronts with modular checkout, localized pricing, and integrated fulfillment. IntoShop lets you move from concept to omni-channel launch in weeks, not quarters.",
   },
@@ -96,7 +93,6 @@ const productShowcase: ProductShowcase[] = [
       "Provision, monitor, and bill network services through a single console with automated SLA alerts.",
     icon: Wifi,
     status: "AVAILABLE NOW",
-    demoHref: "/contact?product=IntoPing",
     details:
       "Centralize provisioning, network monitoring, and billing into one source of truth. IntoPing keeps your operations team informed with automated SLA alerts and deep analytics on subscriber health.",
   },
@@ -107,7 +103,6 @@ const productShowcase: ProductShowcase[] = [
       "Handle everyday finances, errands, and shared routines with secure, personalized mobile experiences.",
     icon: Smartphone,
     status: "AVAILABLE NOW",
-    demoHref: "/contact?product=IntoPocket",
     details:
       "Deliver a unified companion for personal finance, daily planning, and family coordination. IntoPocket blends security with delightful UX so your users keep coming back every day.",
   },
@@ -117,7 +112,6 @@ const productShowcase: ProductShowcase[] = [
     description: "Your favorite hosting service at best price.",
     icon: Server,
     status: "COMING SOON",
-    demoHref: "/contact?product=IntoHost",
     details:
       "IntoHost pairs high-availability infrastructure with transparent pricing and hands-on support. Autoscaling, edge caching, and zero-downtime deploys keep your workloads fast while we handle the ops.",
   },
@@ -285,6 +279,7 @@ type ProductCardProps = {
 };
 
 function ProductCard({ product }: ProductCardProps) {
+  const navigate = useNavigate();
   const Icon = product.icon;
 
   return (
@@ -314,8 +309,13 @@ function ProductCard({ product }: ProductCardProps) {
         >
           {product.status}
         </span>
-        <Link
-          to={product.demoHref}
+        <button
+          type="button"
+          onClick={() =>
+            navigate("/contact", {
+              state: { project: product.name },
+            })
+          }
           className={buttonVariants({
             variant: "secondary",
             size: "sm",
@@ -325,7 +325,7 @@ function ProductCard({ product }: ProductCardProps) {
         >
           <span>Check out demo</span>
           <ArrowUpRight className="h-4 w-4" />
-        </Link>
+        </button>
       </div>
     </motion.div>
   );
