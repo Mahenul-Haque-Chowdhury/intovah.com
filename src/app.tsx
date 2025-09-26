@@ -1,13 +1,18 @@
+import { HelmetProvider } from 'react-helmet-async'
+import { AnimatePresence } from 'framer-motion'
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom'
+import { ToastContainer } from 'react-toastify'
+
 import { ScrollToTop } from '@/components/scroll-to-top'
+import { PageTransition } from '@/components/animations'
+import { ThemeProvider } from '@/theme/theme-provider'
 import AboutPage from '@/routes/about'
 import ContactPage from '@/routes/contact'
 import FaqsPage from '@/routes/faqs'
 import HomePage from '@/routes/home'
 import SupportPage from '@/routes/support'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { ToastContainer } from 'react-toastify'
+
 import 'react-toastify/dist/ReactToastify.css'
-import { HelmetProvider } from 'react-helmet-async'  // Import CSS for styling the toasts
 
 export default function App() {
   /**
@@ -20,20 +25,66 @@ export default function App() {
 
   return (
     <HelmetProvider>
-    <BrowserRouter basename={basename}>
-      <ScrollToTop>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="about" element={<AboutPage />} />
-          <Route path="contact" element={<ContactPage />} />
-          <Route path="faqs" element={<FaqsPage />} />
-          <Route path="support" element={<SupportPage />} />
-        </Routes>
-      </ScrollToTop>
+      <ThemeProvider>
+        <BrowserRouter basename={basename}>
+          <AnimatedRoutes />
 
-      {/* ToastContainer should be included here to display toasts */}
-      <ToastContainer />
-    </BrowserRouter>
+          <ToastContainer position="top-right" newestOnTop theme="light" />
+        </BrowserRouter>
+      </ThemeProvider>
     </HelmetProvider>
+  )
+}
+
+function AnimatedRoutes() {
+  const location = useLocation()
+
+  return (
+    <ScrollToTop>
+      <AnimatePresence mode="wait" initial={false}>
+        <Routes location={location} key={location.pathname}>
+          <Route
+            path="/"
+            element={
+              <PageTransition>
+                <HomePage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="about"
+            element={
+              <PageTransition>
+                <AboutPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="contact"
+            element={
+              <PageTransition>
+                <ContactPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="faqs"
+            element={
+              <PageTransition>
+                <FaqsPage />
+              </PageTransition>
+            }
+          />
+          <Route
+            path="support"
+            element={
+              <PageTransition>
+                <SupportPage />
+              </PageTransition>
+            }
+          />
+        </Routes>
+      </AnimatePresence>
+    </ScrollToTop>
   )
 }

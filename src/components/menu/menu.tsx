@@ -1,17 +1,35 @@
 import MenuItem from '@/components/menu/menu-item'
 
-const MENU_ITEMS = [
+type MenuLink = {
+  name: string
+  to: string
+}
+
+const MENU_ITEMS: MenuLink[] = [
+  { name: 'Home', to: '/' },
+  { name: 'About', to: '/about' },
   { name: 'Contact', to: '/contact' },
-  { name: 'About Us', to: '/about' },
-  // { name: "FAQ's", to: '/faqs' },
-  // { name: 'Support', to: '/support' },
+  { name: 'FAQs', to: '/faqs' },
+  { name: 'Support', to: '/support' },
 ]
 
-function Menu({ className }: { className?: string }) {
+type MenuProps = {
+  className?: string
+  itemClassName?: string
+  onItemClick?: () => void
+}
+
+function Menu({ className, itemClassName = 'text-gray-700', onItemClick }: MenuProps) {
   return (
     <ul className={className}>
       {MENU_ITEMS.map((link) => (
-        <MenuItem key={link.name} to={link.to} name={link.name} />
+        <MenuItem
+          key={link.name}
+          className={itemClassName}
+          to={link.to}
+          name={link.name}
+          onClick={onItemClick}
+        />
       ))}
     </ul>
   )

@@ -1,0 +1,6 @@
+<svg width="32" height="32" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Green Ring -->
+  <circle cx="16" cy="16" r="14" fill="none" stroke="#006A4E" stroke-width="4" />
+  <!-- Red Inside Area -->
+  <circle cx="16" cy="16" r="8" fill="#F42A41" />
+</svg>
